@@ -1,0 +1,23 @@
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Action Type'
+        required: true
+        options:
+          - deploy-backend
+      branch:
+        description: 'Source Branch'
+        required: true
+        options:
+          - main
+
+jobs:
+  deploy-main:
+    if: ${{ inputs.branch }} == 'main'
+    name: ${{ inputs.tag }}-main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test trigger
+        run: echo "Job ran successfully"
+
