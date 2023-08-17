@@ -1,0 +1,14 @@
+version: '3'
+services:
+  vector:
+    image: {{ docker_image_vector }}
+    environment:
+      - LOG={{ vector_log_level }}
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD={{ elasticsearch_pass }}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./src/vector.toml:/etc/vector/vector.toml:ro
+    networks:
+      - default
+

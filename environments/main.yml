@@ -1,0 +1,11 @@
+---
+# Docker images
+docker_image_tag_app_server: "main-latest"
+docker_image_tag_site: "main-latest"
+
+# App settings
+app_config: "production"
+app_log_level: "DEBUG"
+system_log_level: "DEBUG"
+vector_log_level: "INFO"
+

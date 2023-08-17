@@ -1,0 +1,99 @@
+version: '3'
+services:
+  database:
+    image: {{ docker_image_postgres_app_server }}
+    environment:
+      - POSTGRES_DB={{ database_name }}
+      - POSTGRES_USER={{ database_user }}
+      - POSTGRES_PASSWORD={{ database_pass }}
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    restart: unless-stopped
+    networks:
+      - default
+
+  redis:
+    image: {{ docker_image_redis_app_server }}
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - default
+
+  rabbitmq:
+    image: {{ docker_image_rabbitmq_app_server }}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq/
+      - rabbitmq_log:/var/log/rabbitmq
+    networks:
+      - default
+
+  elasticsearch:
+    image: {{ docker_image_elasticsearch }}
+    environment:
+      - ELASTIC_PASSWORD={{ elasticsearch_pass }}
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - elasticsearch_config:/usr/share/elasticsearch/config
+    healthcheck:
+      test: curl -u "elastic:{{ elasticsearch_host }}" http://127.0.0.1:{{ elasticsearch_port }}
+      interval: 1s
+      timeout: 5s
+      retries: 120
+    restart: unless-stopped
+    networks:
+      - default
+
+  kibana:
+    image: {{ docker_image_kibana }}
+    depends_on:
+      elasticsearch:
+	condition: service_healthy
+    volumes:
+      - kibana_config:/usr/share/kibana/config
+      - kibana_data:/usr/share/kibana/data
+    environment:
+      - LOGGING_VERBOSE=true
+      - XPACK_SECURITY_ENCRYPTION_KEY={{ kibana_secret_key }}
+    networks:
+      - default
+
+  logging_setup:
+    image: {{ elasticsearch:8.7.0 }}
+    user: "0"
+    command: >
+      bash -c '
+        if [ -s config/service_tokens ]; then
+          echo "Deleting old ES auth token"
+          bin/elasticsearch-service-tokens delete elastic/kibana auth-token;
+        fi;
+        echo "Setting ES auth token";
+        AUTH_TOKEN=$$(sed 's/.*=//' <<<"$$(bin/elasticsearch-service-tokens create elastic/kibana auth-token)");
+        chown elasticsearch config/service_tokens
+        stat -c '%U' config/service_tokens
+        TOKEN_LINE=$$(grep -n '{{SERVICE_ACCOUNT_TOKEN}}' /usr/share/kibana/config/kibana.yml | cut -d ':' -f1);
+        echo "Setting kibana.yml";
+        cp /usr/share/kibana.yml /usr/share/kibana/config/kibana.yml;
+        sed -i "$${TOKEN_LINE}s|{{SERVICE_ACCOUNT_TOKEN}}|$${AUTH_TOKEN:1}|" /usr/share/kibana/config/kibana.yml;
+      '
+    volumes:
+      - ./src/kibana.yml:/usr/share/kibana.yml
+      - elasticsearch_config:/usr/share/elasticsearch/config
+      - kibana_config:/usr/share/kibana/config
+
+volumes:
+  pg_data:
+  redis_data:
+  elasticsearch_data:
+  kibana_config:
+  kibana_data:
+  elasticsearch_config:
+  rabbitmq_data:
+  rabbitmq_log:
+

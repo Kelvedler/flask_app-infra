@@ -1,0 +1,78 @@
+---
+- name: Provision of flask_app server
+  hosts: ["main"]
+
+  vars_files:
+    - "environments/default.yml"
+    - "environments/{{ env }}.yml"
+
+  roles:
+    - { role: docker, tags: ["docker"] }
+
+  tasks:
+    - name: Create project directory
+      ansible.builtin.file:
+        path: {{ project_path }}
+        state: directory
+        group: "{{ default_user }}"
+        owner: "{{ default_user }}"
+        mode: '755'
+      become: true
+      tags: ["project-dir"]
+
+    - name: Copy app env
+      ansible.builtin.template:
+        src: "app.env.j2"
+        dest: "{{ project_path }}/app.env"
+        group: "{{ default_user }}"
+        mode: '440'
+      tags: ["deploy", "deploy-backend"]
+ 
+    - name: Copy app server docker compose
+      ansible.builtin.template:
+        src: docker-compose-app-server.yml.j2
+        dest: "{{ project_path }}/docker-compose-app-server.yml"
+        group: "{{ default_user }}"
+        owner: "{{ default_user }}"
+        mode: '440'
+      tags: ["deploy", "deploy-backend"]
+
+    - name: Copy services docker compose
+      ansible.builtin.template:
+        src: docker-compose-services.yml.j2
+        dest: "{{ project_path }}/docker-compose-services.yml"
+        group: "{{ default_user }}"
+        owner: "{{ default_user }}"
+        mode: '440'
+      tags: ["deploy", "deploy-services"]
+
+    - name: Login to Docker Registry
+      ansible.builtin.command: docker login {{ registry_url }} --username {{ registry_user }} --password {{ registry_pass }}
+      changed_when: true
+      tags: ["deploy", "deploy-backend", "deploy-services", "deploy-logger"]
+
+    - name: Pull app server image update
+      ansible.builtin.command: docker pull {{ docker_image_app_server }}:{{ docker_image_tag_app_server }}
+      changed_when: true
+      tags: ["deploy", "deploy-backend"]
+
+    - name: Start/Update app server compose
+      ansible.builtin.command: docker-compose -p {{ compose_project_name }} -f {{ project_path }}/docker-compose-app-server.yml up --force-recreate -d
+      changed_when: true
+      tags: ["deploy", "deploy-backend"]
+
+    - name: Start/Update services compose
+      ansible.builtin.command: docker-compose -p {{ compose_project_name }} -f {{ project_path }}/docker-compose-services.yml up --force-recreate -d
+      changed_when: true
+      tags: ["deploy", "deploy-services"]
+
+    - name: Start/Update logger compose
+      ansible.builtin.command: docker-compose -p {{ compose_project_name }} -f {{ project_path }}/docker-compose-logger.yml up --force-recreate -d
+      changed_when: true
+      tags: ["deploy-logger"]
+
+    - name: Logout from Docker Registry
+      ansible.builtin.command: docker logout {{ registry_url }}
+      changed_when: true
+      tags: ["deploy", "deploy-backend", "deploy-services", "deploy-logger"]
+

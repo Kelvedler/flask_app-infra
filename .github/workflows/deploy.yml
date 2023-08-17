@@ -13,11 +13,28 @@ on:
           - main
 
 jobs:
+  env:
+    DEPLOY_TAG: ${{ inputs.tag }}
   deploy-main:
     if: ${{ inputs.branch }} == 'main'
-    name: ${{ inputs.tag }}-main
+    name: $DEPLOY_TAG-main
     runs-on: ubuntu-latest
     steps:
-      - name: Test trigger
-        run: echo "Job ran successfully"
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install ansible 
+        run: |
+          apt install -y software-properties-common
+          add-apt-repository --yes --update ppa:ansible/ansible
+          apt install ansible
+
+      - name: Run playbook
+        run: >
+          ansible-playbook 
+          -i inventory/flask-app 
+          -e env=main 
+          -l main 
+          -t $DEPLOY_TAG 
+          -v playbook.yml
 
