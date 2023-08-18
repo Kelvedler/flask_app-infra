@@ -37,6 +37,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
 
+      - name: ssh test
+        run: |
+          ssh -v -o StrictHostKeyChecking=no 217.160.151.99
+
       - name: Run playbook
         run: >
           ansible-playbook 
