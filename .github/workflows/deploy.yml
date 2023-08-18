@@ -35,8 +35,8 @@ jobs:
 
       - name: Add SSH
         run: |
-          eval $$(ssh-agent -s)
-          echo "$HOST_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
+          eval $(ssh-agent -s)
+          echo "$HOST_SSH_PRIVATE_KEY" | ssh-add
 
       - name: Run playbook
         run: >
