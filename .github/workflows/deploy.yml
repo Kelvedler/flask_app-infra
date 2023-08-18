@@ -40,9 +40,7 @@ jobs:
 
       - name: ssh test
         run: |
-          cd /home/runner/.ssh
-          ls -a
-          ssh -v -o StrictHostKeyChecking=no ansible@217.160.151.99
+          ssh -v -o IdentitiesOnly=yes ansible@217.160.151.99
 
 #      - name: Run playbook
 #        run: >
