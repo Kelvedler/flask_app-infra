@@ -6,13 +6,10 @@
     - "environments/default.yml"
     - "environments/{{ env }}.yml"
 
-  roles:
-    - { role: docker, tags: ["docker"] }
-
   tasks:
     - name: Create project directory
       ansible.builtin.file:
-        path: {{ project_path }}
+        path: "{{ project_path }}"
         state: directory
         group: "{{ default_user }}"
         owner: "{{ default_user }}"

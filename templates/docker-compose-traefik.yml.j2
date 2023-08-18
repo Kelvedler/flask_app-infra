@@ -3,8 +3,6 @@ services:
   traefik:
     image: {{ docker_image_traefik }}
     restart: unless-stopped
-    env_file:
-      - {{ project_path }}/traefik.env
     ports:
       - 80:80
       - 443:443

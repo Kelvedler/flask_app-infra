@@ -5,9 +5,6 @@
   vars_files:
     - "environments/default.yml"
 
-  roles:
-    - { role: docker, tags: ["docker"] }
-
   tasks:
     - name: Create project directory
       ansible.builtin.file:

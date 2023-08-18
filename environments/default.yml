@@ -20,6 +20,15 @@ docker_image_rabbitmq_app_server: "rabbitmq:3.11.16-management-alpine"
 docker_image_kibana: "docker.elastic.co/kibana/kibana:8.7.0"
 docker_image_vector: "timberio/vector:nightly-alpine"
 
+# Docker containers
+docker_app_name: "app"
+
+# Docker compose project name
+compose_project_name: "{{ project_name }}-{{ env }}"
+
+# Traefik
+traefik_network_name: "traefik-pub-net"
+
 # App settings
 app_secret_key: "${{ secrets.FLASK_APP_APP_SECRET_KEY }}"
 
