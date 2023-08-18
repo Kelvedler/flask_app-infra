@@ -16,7 +16,6 @@ on:
 
 env:
   DEPLOY_TAG: ${{ inputs.tag }}
-  HOST_SSH_PRIVATE_KEY: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
 
 jobs:
   deploy-main:
@@ -34,9 +33,9 @@ jobs:
           sudo apt install ansible
 
       - name: Add SSH
-        run: |
-          eval $(ssh-agent -s)
-          echo "$HOST_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
 
       - name: Run playbook
         run: >
