@@ -16,6 +16,7 @@ on:
 
 env:
   DEPLOY_TAG: ${{ inputs.tag }}
+  HOST_SSH_PRIVATE_KEY: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
 
 jobs:
   deploy-main:
