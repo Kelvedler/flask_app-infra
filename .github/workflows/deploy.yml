@@ -6,6 +6,8 @@ on:
         required: true
         options:
           - deploy-backend
+          - deploy-services
+          - deploy-logger
       branch:
         description: 'Source Branch'
         required: true

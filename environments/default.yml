@@ -6,9 +6,9 @@ project_name: "flask-app"
 project_path: "/opt/{{ project_name }}/{{ env }}"
 
 # Docker registry
-registry_url: "{{ lookup('env', 'FLASK_APP_REGISTRY_URL') }}"
-registry_user: "{{ lookup('env', 'FLASK_APP_REGISTRY_USER') }}"
-registry_pass: "{{ lookup('env', 'FLASK_APP_REGISTRY_PASS') }}"
+registry_url: "${{ variables.FLASK_APP_REGISTRY_URL }}"
+registry_user: "${{ secrets.FLASK_APP_REGISTRY_USER }}"
+registry_pass: "${{ secrets.FLASK_APP_REGISTRY_PASS }}"
 
 # Docker images
 docker_image_traefik: "traefik:2.10.4"
@@ -21,7 +21,7 @@ docker_image_kibana: "docker.elastic.co/kibana/kibana:8.7.0"
 docker_image_vector: "timberio/vector:nightly-alpine"
 
 # App settings
-app_secret_key: "{{ lookup('env', 'FLASK_APP_APP_SECRET_KEY') }}"
+app_secret_key: "${{ secrets.FLASK_APP_APP_SECRET_KEY }}"
 
 # Websockets
 websockets_host: "0.0.0.0"
@@ -29,22 +29,22 @@ websockets_port: 8001
 
 # Database
 database_host: "database"
-database_user: "{{ lookup('env', 'FLASK_APP_DATABASE_USER') }}"
-database_pass: "{{ lookup('env', 'FLASK_APP_DATABASE_PASS') }}"
+database_user: "${{ secrets.FLASK_APP_DATABASE_USER }}"
+database_pass: "${{ secrets.FLASK_APP_DATABASE_PASS }}"
 
 # Elasticsearch
 elasticsearch_host: "elasticsearch"
 elasticsearch_port: 9200
-elasticsearch_pass: "{{ lookup('env', 'FLASK_APP_ELASTICSEARCH_PASS') }}"
+elasticsearch_pass: "${{ secrets.FLASK_APP_ELASTICSEARCH_PASS }}"
 
 # Kibana
-kibana_secret_key: "{{ lookup('env', 'FLASK_APP_KIBANA_SECRET_KEY') }}"
+kibana_secret_key: "${{ secrets.FLASK_APP_KIBANA_SECRET_KEY }}"
 
 # RabbitMQ
 rabbitmq_host: "rabbitmq"
 rabbitmq_port: 5672
-rabbitmq_user: "{{ lookup('env', 'FLASK_APP_RABBITMQ_USER') }}"
-rabbitmq_pass: "{{ lookup('env', 'FLASK_APP_RABBITMQ_PASS') }}"
+rabbitmq_user: "${{ secrets.FLASK_APP_RABBITMQ_USER }}"
+rabbitmq_pass: "${{ secrets.FLASK_APP_RABBITMQ_PASS }}"
 
 # Redis
 redis_host: "redis"
