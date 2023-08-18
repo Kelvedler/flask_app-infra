@@ -21,7 +21,7 @@ env:
 jobs:
   deploy-main:
     if: ${{ inputs.branch }} == 'main'
-    name: $DEPLOY_TAG-main
+    name: ${{ inputs.tag }}-main
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
