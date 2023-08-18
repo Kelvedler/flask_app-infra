@@ -40,7 +40,8 @@ jobs:
 
       - name: ssh test
         run: |
-          cat /home/runner/.ssh/id_rsa
+          pwd
+          cat .ssh/id_rsa
           ssh -v -o StrictHostKeyChecking=no ansible@217.160.151.99
 
 #      - name: Run playbook
