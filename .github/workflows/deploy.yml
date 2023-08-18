@@ -14,10 +14,12 @@ on:
         options:
           - main
 
+env:
+  DEPLOY_TAG: ${{ inputs.tag }}
+  HOST_SSH_PRIVATE_KEY: ${{ secrets.HOST_SSH_PRIVATE_KEY }}
+
 jobs:
   deploy-main:
-    env:
-      DEPLOY_TAG: ${{ inputs.tag }}
     if: ${{ inputs.branch }} == 'main'
     name: $DEPLOY_TAG-main
     runs-on: ubuntu-latest
@@ -30,6 +32,11 @@ jobs:
           sudo apt install -y software-properties-common
           sudo add-apt-repository --yes --update ppa:ansible/ansible
           sudo apt install ansible
+
+      - name: Add SSH
+        run: |
+          eval $(ssh-agent -s)
+          echo "$HOST_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
 
       - name: Run playbook
         run: >
