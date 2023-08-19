@@ -37,6 +37,7 @@ websockets_host: "0.0.0.0"
 websockets_port: 8001
 
 # Database
+database_name: "{{ project_name }}-{{ env }}"
 database_host: "database"
 database_user: "${{ secrets.FLASK_APP_DATABASE_USER }}"
 database_pass: "${{ secrets.FLASK_APP_DATABASE_PASS }}"
