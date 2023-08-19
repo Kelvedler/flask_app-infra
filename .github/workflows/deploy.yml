@@ -40,7 +40,7 @@ jobs:
 
       - name: ssh test
         run: |
-          ssh -v -o IdentitiesOnly=yes -o StrictHostKeyChecking=no ansible@217.160.151.99
+          ssh -v -o StrictHostKeyChecking=no ansible@217.160.151.99
 
 #      - name: Run playbook
 #        run: >
