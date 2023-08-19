@@ -35,7 +35,7 @@ jobs:
 
       - name: Add SSH
         run: |
-          eval $(ssh-agent)
+          eval "$(ssh-agent)"
           echo "$HOST_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add ~/.ssh/id_rsa_ansible - > /dev/null
 
       - name: ssh test
