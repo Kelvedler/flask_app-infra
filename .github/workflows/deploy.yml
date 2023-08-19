@@ -38,6 +38,7 @@ jobs:
           eval "$(ssh-agent -s)"
           mkdir ~/.ssh
           touch ~/.ssh/id_rsa_ansible
+          chmod 400 ~/.ssh/id_rsa_ansible
           echo "$HOST_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add ~/.ssh/id_rsa_ansible - > /dev/null
 
       - name: ssh test
