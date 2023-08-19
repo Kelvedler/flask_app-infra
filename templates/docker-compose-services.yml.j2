@@ -65,7 +65,7 @@ services:
       - default
 
   logging_setup:
-    image: {{ elasticsearch:8.7.0 }}
+    image: {{ docker_image_elasticsearch }}
     user: "0"
     command: >
       bash -c '
