@@ -43,11 +43,6 @@
         mode: '440'
       tags: ["deploy", "deploy-services"]
 
-    - name: Login to Docker Registry
-      ansible.builtin.command: docker login {{ registry_url }} --username '{{ registry_user }}' --password '{{ registry_pass }}'
-      changed_when: true
-      tags: ["deploy", "deploy-backend", "deploy-services", "deploy-logger"]
-
     - name: Pull app server image update
       ansible.builtin.command: docker pull {{ docker_image_app_server }}:{{ docker_image_tag_app_server }}
       changed_when: true
@@ -67,9 +62,4 @@
       ansible.builtin.command: docker-compose -p {{ compose_project_name }} -f {{ project_path }}/docker-compose-logger.yml up --force-recreate -d
       changed_when: true
       tags: ["deploy-logger"]
-
-    - name: Logout from Docker Registry
-      ansible.builtin.command: docker logout {{ registry_url }}
-      changed_when: true
-      tags: ["deploy", "deploy-backend", "deploy-services", "deploy-logger"]
 

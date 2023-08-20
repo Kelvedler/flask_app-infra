@@ -5,11 +5,6 @@ default_user: "ansible"
 project_name: "flask-app"
 project_path: "/opt/{{ project_name }}/{{ env }}"
 
-# Docker registry
-registry_url: "${{ lookup('env', 'FLASK_APP_REGISTRY_URL') }}"
-registry_user: "${{ lookup('env', 'FLASK_APP_REGISTRY_USER') }}"
-registry_pass: "${{ lookup('env', 'FLASK_APP_REGISTRY_PASS') }}"
-
 # Docker images
 docker_image_traefik: "traefik:2.10.4"
 docker_image_postgres_app_server: "postgres:15.2-alpine"
