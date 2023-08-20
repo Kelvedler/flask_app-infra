@@ -30,6 +30,8 @@ services:
 
   elasticsearch:
     image: {{ docker_image_elasticsearch }}
+    depends_on:
+      - logging_setup
     environment:
       - ELASTIC_PASSWORD={{ elasticsearch_pass }}
       - discovery.type=single-node
