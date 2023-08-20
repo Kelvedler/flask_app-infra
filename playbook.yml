@@ -44,7 +44,7 @@
       tags: ["deploy", "deploy-services"]
 
     - name: Login to Docker Registry
-      ansible.builtin.command: docker login {{ registry_url }} --username {{ registry_user }} --password {{ registry_pass }}
+      ansible.builtin.command: docker login {{ registry_url }} --username '{{ registry_user }}' --password '{{ registry_pass }}'
       changed_when: true
       tags: ["deploy", "deploy-backend", "deploy-services", "deploy-logger"]
 
