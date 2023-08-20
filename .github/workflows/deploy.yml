@@ -21,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEPLOY_TAG: ${{ inputs.tag }}
-      FLASK_APP_REGISTRY_URL: ${{ variables.FLASK_APP_REGISTRY_URL }}
       FLASK_APP_REGISTRY_USER: ${{ secrets.FLASK_APP_REGISTRY_USER }}
       FLASK_APP_REGISTRY_PASS: ${{ secrets.FLASK_APP_REGISTRY_PASS }}
       FLASK_APP_SECRET_KEY: ${{ secrets.FLASK_APP_SECRET_KEY }}
