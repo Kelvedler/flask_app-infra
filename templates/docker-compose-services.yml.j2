@@ -56,7 +56,7 @@ services:
     image: {{ docker_image_kibana }}
     depends_on:
       elasticsearch:
-	condition: service_healthy
+        condition: service_healthy
     volumes:
       - kibana_config:/usr/share/kibana/config
       - kibana_data:/usr/share/kibana/data
