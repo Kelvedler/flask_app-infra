@@ -24,6 +24,14 @@
         group: "{{ default_user }}"
         mode: '440'
       tags: ["deploy", "deploy-backend"]
+
+    - name: Copy kibana yml
+      ansible.builtin.template:
+        src: "flask_app/src/kibana.yml"
+        dest: "{{ project_path }}/kibana.yml"
+        group: "{{ default_user }}"
+        mode: '440'
+      tags: ["deploy", "deploy-services"]
  
     - name: Copy app server docker compose
       ansible.builtin.template:
