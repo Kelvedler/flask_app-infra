@@ -5,6 +5,9 @@ default_user: "ansible"
 project_name: "flask-app"
 project_path: "/opt/{{ project_name }}/{{ env }}"
 
+# Deploy
+deploy_branch: "{{ lookup('env', 'DEPLOY_BRANCH') }}"
+
 # Docker images
 docker_image_traefik: "traefik:2.10.4"
 docker_image_postgres_app_server: "postgres:15.2-alpine"

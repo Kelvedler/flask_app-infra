@@ -69,7 +69,7 @@ services:
   logging_setup:
     image: {{ docker_image_elasticsearch }}
     build:
-      context: {{ app_repository }}.git#{{ DEPLOY_BRANCH }}
+      context: {{ app_repository }}.git#{{ deploy_branch }}
     user: "0"
     command: >
       bash -c '
