@@ -64,5 +64,5 @@ jobs:
           -e env=main 
           -l main 
           -t $DEPLOY_TAG 
-#          -v playbook.yml
+          -v playbook.yml
 
