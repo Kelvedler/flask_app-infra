@@ -35,6 +35,8 @@ services:
     environment:
       - ELASTIC_PASSWORD={{ elasticsearch_pass }}
       - discovery.type=single-node
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
