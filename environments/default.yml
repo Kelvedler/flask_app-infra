@@ -26,6 +26,7 @@ traefik_network_name: "traefik-pub-net"
 
 # App settings
 app_secret_key: "{{ lookup('env', 'FLASK_APP_APP_SECRET_KEY') }}"
+app_repository: "https://github.com/Kelvedler/flask_app" 
 
 # Websockets
 websockets_host: "0.0.0.0"

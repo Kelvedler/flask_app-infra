@@ -68,6 +68,8 @@ services:
 
   logging_setup:
     image: {{ docker_image_elasticsearch }}
+    build:
+      context: {{ app_repository }}.git#{{ DEPLOY_BRANCH }}
     user: "0"
     command: >
       bash -c '
@@ -85,7 +87,7 @@ services:
         sed -i "$${TOKEN_LINE}s|SERVICE_ACCOUNT_TOKEN|$${AUTH_TOKEN:1}|" /usr/share/kibana/config/kibana.yml;
       '
     volumes:
-      - ./flask_app/src/kibana.yml:/usr/share/kibana.yml
+      - ./src/kibana.yml:/usr/share/kibana.yml
       - elasticsearch_config:/usr/share/elasticsearch/config
       - kibana_config:/usr/share/kibana/config
 
