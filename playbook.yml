@@ -28,7 +28,7 @@
 
     - name: Copy kibana yml
       ansible.builtin.copy:
-        src: "/flask_app/src/kibana.yml"
+        src: "./flask_app/src/kibana.yml"
         dest: "{{ project_path }}/kibana.yml"
         group: "{{ default_user }}"
         owner: "{{ default_user }}"
