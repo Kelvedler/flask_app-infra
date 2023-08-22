@@ -1,7 +1,7 @@
 [sources.web]
 type = "docker_logs"
 docker_host = "unix:///var/run/docker.sock"
-include_containers = [ "flask_app_web" ]
+include_containers = [ "{{ docker_app_name }}" ]
 
 [transforms.filter]
 type = "remap"
