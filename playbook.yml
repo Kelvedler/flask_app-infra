@@ -34,7 +34,17 @@
         owner: "{{ default_user }}"
         mode: '440'
       tags: ["deploy", "deploy-services"]
- 
+
+    - name: Copy vector toml
+      ansible.builtin.copy:
+        src: "./flask_app/src/vector.toml"
+        dest: "{{ project_path }}/vector.toml"
+        group: "{{ default_user }}"
+        owner: "{{ default_user }}"
+        mode: '440'
+      tags: ["deploy", "deploy-logger"]
+
+
     - name: Copy app server docker compose
       ansible.builtin.template:
         src: docker-compose-app-server.yml.j2
