@@ -5,6 +5,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - {{ project_path }}/vector.toml:/etc/vector/vector.toml:ro
+    restart: unless-stopped
     networks:
       - default
 

@@ -80,7 +80,7 @@ endpoints = [ "http://{{ elasticsearch_host }}:{{ elasticsearch_port }}" ]
 [sinks.elasticsearch.auth]
 strategy = "basic"
 user = "elastic"
-password = "{{ elasticsearch_pass }}"
+password = '{{ elasticsearch_pass }}'
 
 [sinks.elasticsearch.bulk]
 index = "web_logs"

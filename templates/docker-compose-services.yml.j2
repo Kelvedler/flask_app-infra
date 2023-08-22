@@ -46,7 +46,7 @@ services:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - elasticsearch_config:/usr/share/elasticsearch/config
     healthcheck:
-      test: curl -u "elastic:{{ elasticsearch_pass }}" http://127.0.0.1:{{ elasticsearch_port }}
+      test: curl -u 'elastic:{{ elasticsearch_pass }}' http://127.0.0.1:{{ elasticsearch_port }}
       interval: 1s
       timeout: 5s
       retries: 120
