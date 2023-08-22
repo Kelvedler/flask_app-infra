@@ -31,11 +31,6 @@ services:
       - "traefik.http.services.{{ env }}-{{ project_name }}-app-server-ws.loadbalancer.server.port=8001"
       - "traefik.http.services.{{ env }}-{{ project_name }}-app-server-ws.loadbalancer.server.scheme=http"
 
-      # Upgrade WS middleware
-      - "traefik.http.middlewares.{{ env }}-{{ project_name }}-app-server-ws-upgrade.headers.customrequestheaders.Connection=Upgrade"
-      - "traefik.http.middlewares.{{ env }}-{{ project_name }}-app-server-ws-upgrade.headers.customrequestheaders.Upgrade=websocket, HTTP/1.1"
-
-
 networks:
   {{ traefik_network_name }}:
     external: true
