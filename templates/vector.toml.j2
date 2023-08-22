@@ -1,7 +1,7 @@
 [sources.web]
 type = "docker_logs"
 docker_host = "unix:///var/run/docker.sock"
-include_containers = [ "{{ docker_app_name }}" ]
+include_containers = [ "{{ project_name }}-{{ env }}_{{ docker_app_name }}" ]
 
 [transforms.filter]
 type = "remap"
