@@ -38,6 +38,7 @@ websockets_port: 8001
 # Database
 database_name: "{{ project_name }}-{{ env }}"
 database_host: "database"
+database_port: 5432
 database_user: "{{ lookup('env', 'FLASK_APP_DATABASE_USER') }}"
 database_pass: "{{ lookup('env', 'FLASK_APP_DATABASE_PASS') }}"
 
