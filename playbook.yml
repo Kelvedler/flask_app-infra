@@ -36,8 +36,8 @@
       tags: ["deploy", "deploy-services"]
 
     - name: Copy vector toml
-      ansible.builtin.copy:
-        src: "./flask_app/src/vector.toml"
+      ansible.builtin.template:
+        src: "vector.toml.j2"
         dest: "{{ project_path }}/vector.toml"
         group: "{{ default_user }}"
         owner: "{{ default_user }}"
@@ -62,6 +62,16 @@
         owner: "{{ default_user }}"
         mode: '440'
       tags: ["deploy", "deploy-services"]
+
+    - name: Copy logger docker compose
+      ansible.builtin.template:
+        src: docker-compose-logger.yml.j2
+        dest: "{{ project_path }}/docker-compose-logger.yml"
+        group: "{{ default_user }}"
+        owner: "{{ default_user }}"
+        mode: '440'
+      tags: ["deploy", "deploy-logger"]
+
 
     - name: Pull app server image update
       ansible.builtin.command: docker pull {{ docker_image_app_server }}:{{ docker_image_tag_app_server }}
