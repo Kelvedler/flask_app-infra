@@ -66,7 +66,21 @@ services:
       - LOGGING_VERBOSE=true
       - XPACK_SECURITY_ENCRYPTION_KEY={{ kibana_secret_key }}
     networks:
+      - {{ traefik_network_name }}
       - default
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network={{ traefik_network_name }}"
+
+      # Http router 'kibana'
+      - "traefik.http.routers.{{ env }}-{{ project_name }}-kibana.entrypoints=web"
+      - "traefik.http.routers.{{ env }}-{{ project_name }}-kibana.rule=PathPrefix(`/kibana`)"
+      - "traefik.http.routers.{{ env }}-{{ project_name }}-kibana.service={{ env }}-{{ project_name }}-kibana"
+
+      # Service 'kibana'
+      - "traefik.http.services.{{ env }}-{{ project_name }}-kibana.loadbalancer.server.port=5601"
+      - "traefik.http.services.{{ env }}-{{ project_name }}-kibana.loadbalancer.server.scheme=http"
 
   logging_setup:
     image: {{ docker_image_elasticsearch }}
@@ -100,4 +114,8 @@ volumes:
   elasticsearch_config:
   rabbitmq_data:
   rabbitmq_log:
+
+networks:
+  {{ traefik_network_name }}:
+    external: true
 
