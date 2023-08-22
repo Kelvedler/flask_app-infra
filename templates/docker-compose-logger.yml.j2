@@ -2,6 +2,8 @@ version: '3'
 services:
   vector:
     image: {{ docker_image_vector }}
+    environment:
+      - LOG=info
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - {{ project_path }}/vector.toml:/etc/vector/vector.toml:ro
