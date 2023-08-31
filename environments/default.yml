@@ -11,6 +11,9 @@ deploy_branch: "{{ lookup('env', 'DEPLOY_BRANCH') }}"
 # Domain records
 default_hosted_zone: "kelvedler.dev"
 
+# LetsEncrypt
+letsencrypt_email: "hnflkmvjcm@gmail.com"
+
 # Docker images
 docker_image_traefik: "traefik:2.10.4"
 docker_image_postgres_app_server: "postgres:15.2-alpine"
