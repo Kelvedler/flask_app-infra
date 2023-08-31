@@ -11,9 +11,9 @@
     address = ":443"
 
 [certificatesResolvers.LE.acme]
-  email = "{{ letsencrypt_email }}
+  email = "{{ letsencrypt_email }}"
   storage = "acme.json"
-  [certificatesResolvers.LE.acme.httpChallange]
+  [certificatesResolvers.LE.acme.httpChallenge]
     entryPoint = "web"
 
 [providers.docker]
