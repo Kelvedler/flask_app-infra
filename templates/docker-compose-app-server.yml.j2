@@ -18,7 +18,6 @@ services:
       - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server.service={{ env }}-{{ project_name }}-app-server"
       - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server.tls=true"
       - "traefik.http.routers.{{ env }}-{{ project_name }}-app.server.tls.certresolver=LE"
-      - "traefik.http.routers.{{ env }}-{{ project_name }}-app.server.tls.domains[0].main={{ domain_record_app_server }}"
 
       # Service 'app-server'
       - "traefik.http.services.{{ env }}-{{ project_name }}-app-server.loadbalancer.server.port=8000"
