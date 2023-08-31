@@ -25,6 +25,10 @@
         mode: '440'
       tags: ["traefik"]
 
+    - name: Create ACME data file
+      ansible.builtin.file:
+        path: "{{ traefik_path }}/acme.json"
+
     - name: Copy Traefik compose
       ansible.builtin.template:
         src: docker-compose-traefik.yml.j2

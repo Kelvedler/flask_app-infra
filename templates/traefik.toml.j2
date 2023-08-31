@@ -10,6 +10,12 @@
   [entryPoints.websecure]
     address = ":443"
 
+[certificatesResolvers.LE.acme]
+  email = "{{ letsencrypt_email }}
+  storage = "acme.json"
+  [certificatesResolvers.LE.acme.httpChallange]
+    entryPoint = "web"
+
 [providers.docker]
 endpoint = "unix:///var/run/docker.sock"
 watch = true
