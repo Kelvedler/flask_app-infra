@@ -24,9 +24,11 @@ services:
       - "traefik.http.services.{{ env }}-{{ project_name }}-app-server.loadbalancer.server.scheme=http"
 
       # Http router 'app-server-ws'
-      - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server-ws.entrypoints=web"
-      - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server-ws.rule=PathPrefix(`/ws`)"
+      - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server-ws.entrypoints=websecure"
+      - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server-ws.rule=Host(`{{ domain_record_app_server }}`) && PathPrefix(`/ws`)"
       - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server-ws.service={{ env }}-{{ project_name }}-app-server-ws"
+      - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server.tls=true"
+      - "traefik.http.routers.{{ env }}-{{ project_name }}-app-server.tls.certresolver=LE"
 
       # Service 'app-server-ws'
       - "traefik.http.services.{{ env }}-{{ project_name }}-app-server-ws.loadbalancer.server.port=8001"
