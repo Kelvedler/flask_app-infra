@@ -31,7 +31,9 @@ docker_app_name: "app"
 compose_project_name: "{{ project_name }}-{{ env }}"
 
 # Traefik
+traefik_path: "/opt/traefik"
 traefik_network_name: "traefik-pub-net"
+traefik_compose_project_name: "traefik"
 
 # App settings
 app_secret_key: "{{ lookup('env', 'FLASK_APP_APP_SECRET_KEY') }}"
