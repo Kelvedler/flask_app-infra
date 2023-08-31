@@ -28,6 +28,12 @@
     - name: Create ACME data file
       ansible.builtin.file:
         path: "{{ traefik_path }}/acme.json"
+        state: touch
+        mode: '600'
+        owner: root
+        group: root
+      become: true
+      tags: ["traefik"]
 
     - name: Copy Traefik compose
       ansible.builtin.template:
