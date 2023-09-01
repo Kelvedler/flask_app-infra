@@ -18,11 +18,20 @@ del(.stream)
 del(.timestamp)
 """
 
+[transforms.reduce_multiline]
+type = "reduce"
+inputs = [ "filter" ]
+starts_when = "match(string!(.message), r'^\\[?\\d+[-\\/]\\w+[-\\/]\\d+[ :]\\d+:\\d+:\\d+(?:,| \\+)\\d+[:\\]]?')"
+expire_after_ms = 3000
+
+[transforms.reduce_multiline.merge_strategies]
+message = "concat_newline"
+
 [transforms.remap]
 type = "remap"
-inputs = [ "filter" ]
+inputs = [ "reduce_multiline" ]
 source = """
-parsed, err = parse_regex(.message, r'^\\[?(?P<timestamp>\\d+[-\\/]\\w+[-\\/]\\d+[ :]\\d+:\\d+:\\d+(?:,| \\+)\\d+)[:\\]]? (?P<message>.*)$')
+parsed, err = parse_regex(.message, r'^\\[?(?P<timestamp>\\d+[-\\/]\\w+[-\\/]\\d+[ :]\\d+:\\d+:\\d+(?:,| \\+)\\d+)[:\\]]? (?P<message>(.|\\n)*)$')
 
 if err != null {
     .timestamp = now()
@@ -34,7 +43,7 @@ if err != null {
         parse_timestamp!(.timestamp, format: "%F %T %z")
 }
 
-parsed, err = parse_regex(.message, r'^(?:\\[\\d+\\])? ?\\[?(?P<severity>DEBUG|INFO|WARN(?:ING)?|ERROR|CRIT(?:ICAL)?)(?:\\] |\\/| )(?P<message>.*)$')
+parsed, err = parse_regex(.message, r'^(?:\\[\\d+\\])? ?\\[?(?P<severity>DEBUG|INFO|WARN(?:ING)?|ERROR|CRIT(?:ICAL)?)(?:\\] |\\/| )(?P<message>(.|\\n)*)$')
 
 if err == null {
     . |= parsed
@@ -46,7 +55,7 @@ if err == null {
     . |= parsed
 }
 
-parsed, err = parse_regex(.message, r'^(?P<ip>(?:\\d{1,3}\\.){3}\\d{1,3}\\b|\\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}) - \\"(?P<message>.*)$')
+parsed, err = parse_regex(.message, r'^(?P<ip>(?:\\d{1,3}\\.){3}\\d{1,3}\\b|\\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}) - \\"(?P<message>(.|\\n)*)$')
 
 if err == null {
     . |= parsed
